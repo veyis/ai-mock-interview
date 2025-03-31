@@ -24,6 +24,7 @@ export default function UserProfile({ user }: UserProfileProps) {
   return (
     <div className="relative">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 rounded-full bg-primary-100/10 px-3 py-2 text-primary-100 hover:bg-primary-100/20"
       >
@@ -48,6 +49,7 @@ export default function UserProfile({ user }: UserProfileProps) {
               Profile
             </Link>
             <button
+              type="button"
               onClick={() => {
                 handleSignOut();
                 setIsOpen(false);
