@@ -12,7 +12,8 @@ import { getCurrentUser } from "@/lib/actions/auth.action";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 
 const InterviewDetails = async ({ params }: RouteParams) => {
-  const { id } = await params;
+  const params = await params;
+  const { id } = params;
 
   const user = await getCurrentUser();
   if (!user) redirect("/");
@@ -26,6 +27,9 @@ const InterviewDetails = async ({ params }: RouteParams) => {
   });
 
   const questions = Array.isArray(interview.questions) ? interview.questions : [];
+  const techstack = Array.isArray(interview.techstack) ? interview.techstack : [];
+
+  const userName = user.name || '';
 
   return (
     <>
@@ -42,7 +46,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
             <h3 className="capitalize">{interview.role} Interview</h3>
           </div>
 
-          <DisplayTechIcons techStack={interview.techstack} />
+          <DisplayTechIcons techStack={techstack} />
         </div>
 
         <p className="bg-dark-200 px-4 py-2 rounded-lg h-fit">
@@ -51,7 +55,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
       </div>
 
       <Agent
-        userName={user.name || ''}
+        userName={userName}
         userId={user.id}
         interviewId={id}
         type="interview"

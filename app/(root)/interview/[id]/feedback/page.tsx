@@ -69,7 +69,7 @@ const Feedback = async ({ params }: RouteParams) => {
       {/* Interview Breakdown */}
       <div className="flex flex-col gap-4">
         <h2>Breakdown of the Interview:</h2>
-        {feedback.categoryScores && feedback.categoryScores.map((category, index) => (
+        {Array.isArray(feedback.categoryScores) && feedback.categoryScores.map((category, index) => (
           <div key={index}>
             <p className="font-bold">
               {index + 1}. {category.name} ({category.score}/100)
@@ -82,7 +82,7 @@ const Feedback = async ({ params }: RouteParams) => {
       <div className="flex flex-col gap-3">
         <h3>Strengths</h3>
         <ul>
-          {feedback.strengths && feedback.strengths.map((strength, index) => (
+          {Array.isArray(feedback.strengths) && feedback.strengths.map((strength, index) => (
             <li key={index}>{strength}</li>
           ))}
         </ul>
@@ -91,7 +91,7 @@ const Feedback = async ({ params }: RouteParams) => {
       <div className="flex flex-col gap-3">
         <h3>Areas for Improvement</h3>
         <ul>
-          {feedback.areasForImprovement && feedback.areasForImprovement.map((area, index) => (
+          {Array.isArray(feedback.areasForImprovement) && feedback.areasForImprovement.map((area, index) => (
             <li key={index}>{area}</li>
           ))}
         </ul>

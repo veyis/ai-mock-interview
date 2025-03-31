@@ -23,6 +23,9 @@ async function Home() {
   const hasPastInterviews = Array.isArray(userInterviews) && userInterviews.length > 0;
   const hasUpcomingInterviews = Array.isArray(allInterview) && allInterview.length > 0;
 
+  const pastInterviews = Array.isArray(userInterviews) ? userInterviews : [];
+  const upcomingInterviews = Array.isArray(allInterview) ? allInterview : [];
+
   return (
     <>
       <section className="card-cta">
@@ -50,7 +53,7 @@ async function Home() {
 
         <div className="interviews-section">
           {hasPastInterviews ? (
-            userInterviews.map((interview) => (
+            pastInterviews.map((interview) => (
               <InterviewCard
                 key={interview.id}
                 userId={user.id}
@@ -72,7 +75,7 @@ async function Home() {
 
         <div className="interviews-section">
           {hasUpcomingInterviews ? (
-            allInterview.map((interview) => (
+            upcomingInterviews.map((interview) => (
               <InterviewCard
                 key={interview.id}
                 userId={user.id}
