@@ -11,7 +11,9 @@ import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/lib/actions/auth.action";
 
 const Feedback = async ({ params }: RouteParams) => {
-  const { id } = params;
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
+
   const user = await getCurrentUser();
   if (!user) redirect("/");
 

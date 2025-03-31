@@ -12,8 +12,8 @@ import { getCurrentUser } from "@/lib/actions/auth.action";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 
 const InterviewDetails = async ({ params }: RouteParams) => {
-  const params = await params;
-  const { id } = params;
+  const resolvedParams = await params;
+  const { id } = resolvedParams;
 
   const user = await getCurrentUser();
   if (!user) redirect("/");
