@@ -20,8 +20,8 @@ async function Home() {
     getLatestInterviews({ userId: user.id }),
   ]);
 
-  const hasPastInterviews = Boolean(userInterviews?.length);
-  const hasUpcomingInterviews = Boolean(allInterview?.length);
+  const hasPastInterviews = userInterviews && userInterviews.length > 0;
+  const hasUpcomingInterviews = allInterview && allInterview.length > 0;
 
   return (
     <>
@@ -49,8 +49,8 @@ async function Home() {
         <h2>Your Interviews</h2>
 
         <div className="interviews-section">
-          {hasPastInterviews ? (
-            userInterviews?.map((interview) => (
+          {hasPastInterviews && userInterviews ? (
+            userInterviews.map((interview) => (
               <InterviewCard
                 key={interview.id}
                 userId={user.id}
@@ -71,8 +71,8 @@ async function Home() {
         <h2>Take Interviews</h2>
 
         <div className="interviews-section">
-          {hasUpcomingInterviews ? (
-            allInterview?.map((interview) => (
+          {hasUpcomingInterviews && allInterview ? (
+            allInterview.map((interview) => (
               <InterviewCard
                 key={interview.id}
                 userId={user.id}
