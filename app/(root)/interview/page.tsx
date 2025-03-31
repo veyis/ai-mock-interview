@@ -6,12 +6,14 @@ const Page = async () => {
   const user = await getCurrentUser();
   if (!user) redirect("/");
 
+  const userName = user.name || '';
+
   return (
     <>
       <h3>Interview generation</h3>
 
       <Agent
-        userName={user.name || ''}
+        userName={userName}
         userId={user.id}
         type="generate"
       />

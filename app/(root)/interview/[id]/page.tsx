@@ -25,6 +25,8 @@ const InterviewDetails = async ({ params }: RouteParams) => {
     userId: user.id,
   });
 
+  const questions = Array.isArray(interview.questions) ? interview.questions : [];
+
   return (
     <>
       <div className="flex flex-row gap-4 justify-between">
@@ -53,7 +55,7 @@ const InterviewDetails = async ({ params }: RouteParams) => {
         userId={user.id}
         interviewId={id}
         type="interview"
-        questions={interview.questions}
+        questions={questions}
         feedbackId={feedback ? feedback.id : undefined}
       />
     </>
