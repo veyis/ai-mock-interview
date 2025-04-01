@@ -1,0 +1,126 @@
+{
+  "node": {
+    "00158db121a688a9338d366c2c75d27786281b06c0": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "rsc"
+      }
+    },
+    "00cad5e0defed144b8ced056a4bc1e3c0c8c6fcc0c": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "rsc"
+      }
+    },
+    "00f8e4e765c55b2e999e4ddd7a9dfc18fa418caf91": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "rsc"
+      }
+    },
+    "400835d1cfe869feac6c860847d745710d2cc72246": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "rsc"
+      }
+    },
+    "408931cf4e017802aec42cd5010fdcb84e65872f41": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "rsc"
+      }
+    },
+    "40b3e24b0ec0d5c6df707ed912e083fc7aef7d5c43": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "rsc"
+      }
+    },
+    "40264361f7dbad3b48aa84593917948259a8220e0b": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "action-browser"
+      }
+    },
+    "403beabf0544dab2d8d5c81f4660abed6c2fadbc2e": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "action-browser"
+      }
+    },
+    "40bf23f7fbf3772715e02c08748330e45b120e7eb9": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "action-browser"
+      }
+    },
+    "40caa84609f8f98dff5da86fe501ea6a5e5d048c0d": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "action-browser"
+      }
+    },
+    "40e3910a64c3561fb27ea6cb382dfa6c718f5d3409": {
+      "workers": {
+        "app/(root)/interview/page": {
+          "moduleId": "[project]/.next-internal/server/app/(root)/interview/page/actions.js { ACTIONS_MODULE0 => \"[project]/lib/actions/auth.action.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/lib/actions/general.action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": true
+        }
+      },
+      "layer": {
+        "app/(root)/interview/page": "action-browser"
+      }
+    }
+  },
+  "edge": {}
+}
