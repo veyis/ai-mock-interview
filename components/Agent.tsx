@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-
+import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
-import { vapi, getVapi } from "@/lib/vapi.sdk";
+import { getVapiInstance } from "@/lib/vapi.sdk"; // Corrected import
 import { interviewer } from "@/constants";
 import { createFeedback } from "@/lib/actions/general.action";
 import { config } from "@/lib/config";
 import type { Message } from "@/types/vapi";
+import vapi from "@vapi-ai/web";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -136,7 +136,10 @@ const Agent = ({
         if (!config.vapi.webToken) {
           throw new Error("NEXT_PUBLIC_VAPI_WEB_TOKEN is not defined");
         }
-        console.log("Starting generate call with workflowId:", config.vapi.workflowId);
+        console.log(
+          "Starting generate call with workflowId:",
+          config.vapi.workflowId
+        );
         await vapiInstance.start(config.vapi.workflowId, {
           variableValues: {
             username: userName,
