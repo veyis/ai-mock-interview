@@ -1,9 +1,11 @@
 import Vapi from "@vapi-ai/web";
 
-<<<<<<< HEAD
-export const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN!);
-=======
-const webToken = process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN;
+// Check if we're in a browser environment
+const isBrowser = typeof window !== "undefined";
+
+// Get the web token from environment variables
+const webToken = isBrowser ? process.env.NEXT_PUBLIC_VAPI_WEB_TOKEN : null;
+
 if (!webToken) {
   console.error(
     "NEXT_PUBLIC_VAPI_WEB_TOKEN is not defined in environment variables"
@@ -11,6 +13,14 @@ if (!webToken) {
   throw new Error(
     "NEXT_PUBLIC_VAPI_WEB_TOKEN is not defined in environment variables"
   );
+}
+
+// Validate token format
+if (!webToken.startsWith("vapi_")) {
+  console.error(
+    "Invalid Vapi web token format. Token should start with 'vapi_'"
+  );
+  throw new Error("Invalid Vapi web token format");
 }
 
 let vapi: Vapi | null = null;
@@ -25,6 +35,7 @@ try {
       error,
       message: error instanceof Error ? error.message : "Unknown error",
       stack: error instanceof Error ? error.stack : undefined,
+      token: webToken ? "present" : "missing",
     });
   });
 
@@ -46,6 +57,7 @@ try {
     errorMessage: error instanceof Error ? error.message : "Unknown error",
     errorStack: error instanceof Error ? error.stack : undefined,
     webToken: webToken ? "present" : "missing",
+    isBrowser,
   });
   throw error;
 }
@@ -60,4 +72,3 @@ export const getVapi = () => {
 
 // Export the vapi instance directly as well
 export { vapi };
->>>>>>> daa1ba2 (Add your descriptive commit message here)

@@ -12,81 +12,39 @@ import { getCurrentUser } from "@/lib/actions/auth.action";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 
 const InterviewDetails = async ({ params }: RouteParams) => {
-<<<<<<< HEAD
   const resolvedParams = await params;
   const { id } = resolvedParams;
 
   const user = await getCurrentUser();
   if (!user) redirect("/");
-=======
-  const { id } = await params;
-
-  const user = await getCurrentUser();
->>>>>>> daa1ba2 (Add your descriptive commit message here)
 
   const interview = await getInterviewById(id);
   if (!interview) redirect("/");
 
   const feedback = await getFeedbackByInterviewId({
     interviewId: id,
-<<<<<<< HEAD
     userId: user.id,
   });
 
-  const questions = Array.isArray(interview.questions) ? interview.questions : [];
-  const techstack = Array.isArray(interview.techstack) ? interview.techstack : [];
+  if (!feedback) {
+    redirect("/");
+  }
 
-  const userName = user.name || '';
+  const userName = user.name || "";
 
-=======
-    userId: user?.id!,
-  });
-
->>>>>>> daa1ba2 (Add your descriptive commit message here)
   return (
-    <>
-      <div className="flex flex-row gap-4 justify-between">
-        <div className="flex flex-row gap-4 items-center max-sm:flex-col">
-          <div className="flex flex-row gap-4 items-center">
-            <Image
-              src={getRandomInterviewCover()}
-              alt="cover-image"
-              width={40}
-              height={40}
-              className="rounded-full object-cover size-[40px]"
-            />
-            <h3 className="capitalize">{interview.role} Interview</h3>
-          </div>
-
-<<<<<<< HEAD
-          <DisplayTechIcons techStack={techstack} />
-=======
+    <div className="interview-details">
+      <h2>Interview Details</h2>
+      <div className="interview-content">
+        <div className="interview-header">
+          <h3>{interview.role} Interview</h3>
           <DisplayTechIcons techStack={interview.techstack} />
->>>>>>> daa1ba2 (Add your descriptive commit message here)
         </div>
-
-        <p className="bg-dark-200 px-4 py-2 rounded-lg h-fit">
-          {interview.type}
-        </p>
+        <div className="interview-body">
+          <pre>{JSON.stringify(feedback, null, 2)}</pre>
+        </div>
       </div>
-
-      <Agent
-<<<<<<< HEAD
-        userName={userName}
-        userId={user.id}
-        interviewId={id}
-        type="interview"
-        questions={questions}
-=======
-        userName={user?.name!}
-        userId={user?.id}
-        interviewId={id}
-        type="interview"
-        questions={interview.questions}
->>>>>>> daa1ba2 (Add your descriptive commit message here)
-        feedbackId={feedback?.id}
-      />
-    </>
+    </div>
   );
 };
 

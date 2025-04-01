@@ -4,7 +4,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/firebase/admin";
-import { feedbackSchema } from "@/constants";
+import { feedbackSchema, Interview } from "@/constants";
 
 export async function createFeedback(params: CreateFeedbackParams) {
   const { interviewId, userId, transcript, feedbackId } = params;
@@ -67,99 +67,116 @@ export async function createFeedback(params: CreateFeedbackParams) {
 }
 
 export async function getInterviewById(id: string): Promise<Interview | null> {
-  const interview = await db.collection("interviews").doc(id).get();
+  try {
+    const interview = await db.collection("interviews").doc(id).get();
+    if (!interview.exists) return null;
 
-  return interview.data() as Interview | null;
+    const data = interview.data();
+    if (!data) return null;
+
+    return {
+      id: interview.id,
+      userId: data.userId,
+      type: data.type,
+      role: data.role,
+      techstack: data.techstack,
+      createdAt: data.createdAt,
+    } as Interview;
+  } catch (error) {
+    console.error("Error getting interview:", error);
+    return null;
+  }
 }
 
-export async function getFeedbackByInterviewId(
-  params: GetFeedbackByInterviewIdParams
-): Promise<Feedback | null> {
-  const { interviewId, userId } = params;
+export async function getFeedbackByInterviewId({
+  interviewId,
+  userId,
+}: {
+  interviewId: string;
+  userId: string;
+}): Promise<any | null> {
+  try {
+    const feedback = await db
+      .collection("feedback")
+      .where("interviewId", "==", interviewId)
+      .where("userId", "==", userId)
+      .get();
 
-  const querySnapshot = await db
-    .collection("feedback")
-    .where("interviewId", "==", interviewId)
-    .where("userId", "==", userId)
-    .limit(1)
-    .get();
+    if (feedback.empty) return null;
 
-  if (querySnapshot.empty) return null;
+    const data = feedback.docs[0].data();
+    if (!data) return null;
 
-  const feedbackDoc = querySnapshot.docs[0];
-  return { id: feedbackDoc.id, ...feedbackDoc.data() } as Feedback;
+    return {
+      id: feedback.docs[0].id,
+      ...data,
+    };
+  } catch (error) {
+    console.error("Error getting feedback:", error);
+    return null;
+  }
 }
 
-export async function getLatestInterviews(
-  params: GetLatestInterviewsParams
-): Promise<Interview[] | null> {
-  const { userId, limit = 20 } = params;
+export async function getLatestInterviews({
+  userId,
+  limit = 20,
+}: {
+  userId: string;
+  limit?: number;
+}): Promise<Interview[] | null> {
+  try {
+    const interviews = await db
+      .collection("interviews")
+      .orderBy("createdAt", "desc")
+      .limit(limit)
+      .get();
 
-<<<<<<< HEAD
-  // First get all finalized interviews
-  const interviews = await db
-    .collection("interviews")
-    .where("finalized", "==", true)
-    .limit(limit * 2) // Get more than needed to account for filtering
-    .get();
-
-  const interviewList = (interviews.docs
-    .map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
-    .filter((interview) => (interview as Interview).userId !== userId) // Filter out user's own interviews
-    .slice(0, limit) // Take only the needed number
-    .sort((a, b) => {
-      const dateA = new Date((a as Interview).createdAt || 0);
-      const dateB = new Date((b as Interview).createdAt || 0);
-      return dateB.getTime() - dateA.getTime();
-    })) as Interview[];
-
-  return interviewList;
-=======
-  const interviews = await db
-    .collection("interviews")
-    .orderBy("createdAt", "desc")
-    .where("finalized", "==", true)
-    .where("userId", "!=", userId)
-    .limit(limit)
-    .get();
-
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
->>>>>>> daa1ba2 (Add your descriptive commit message here)
+    return interviews.docs
+      .map((doc) => {
+        const data = doc.data();
+        if (!data) return null;
+        return {
+          id: doc.id,
+          userId: data.userId,
+          type: data.type,
+          role: data.role,
+          techstack: data.techstack,
+          createdAt: data.createdAt,
+        } as Interview;
+      })
+      .filter((interview): interview is Interview => interview !== null);
+  } catch (error) {
+    console.error("Error getting latest interviews:", error);
+    return null;
+  }
 }
 
 export async function getInterviewsByUserId(
   userId: string
 ): Promise<Interview[] | null> {
-  const interviews = await db
-    .collection("interviews")
-    .where("userId", "==", userId)
-<<<<<<< HEAD
-    .get();
+  try {
+    const interviews = await db
+      .collection("interviews")
+      .where("userId", "==", userId)
+      .orderBy("createdAt", "desc")
+      .get();
 
-  const interviewList = interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
-
-  // Sort interviews by createdAt in descending order
-  return interviewList.sort((a, b) => {
-    const dateA = new Date(a.createdAt || 0);
-    const dateB = new Date(b.createdAt || 0);
-    return dateB.getTime() - dateA.getTime();
-  });
-=======
-    .orderBy("createdAt", "desc")
-    .get();
-
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
->>>>>>> daa1ba2 (Add your descriptive commit message here)
+    return interviews.docs
+      .map((doc) => {
+        const data = doc.data();
+        if (!data) return null;
+        return {
+          id: doc.id,
+          userId: data.userId,
+          type: data.type,
+          role: data.role,
+          techstack: data.techstack,
+          createdAt: data.createdAt,
+        } as Interview;
+      })
+      .filter((interview): interview is Interview => interview !== null);
+  } catch (error) {
+    console.error("Error getting user interviews:", error);
+    return null;
+  }
 }
