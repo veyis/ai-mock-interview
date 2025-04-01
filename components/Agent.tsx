@@ -2,14 +2,12 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+
 import { cn } from "@/lib/utils";
-import { getVapiInstance } from "@/lib/vapi.sdk"; // Corrected import
+import { vapi } from "@/lib/vapi.sdk";
 import { interviewer } from "@/constants";
 import { createFeedback } from "@/lib/actions/general.action";
-import { config } from "@/lib/config";
-import type { Message } from "@/types/vapi";
-import vapi from "@vapi-ai/web";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -38,7 +36,6 @@ const Agent = ({
   const [lastMessage, setLastMessage] = useState<string>("");
 
   useEffect(() => {
-    const vapiInstance = getVapi();
     const onCallStart = () => {
       setCallStatus(CallStatus.ACTIVE);
     };
@@ -68,20 +65,20 @@ const Agent = ({
       console.log("Error:", error);
     };
 
-    vapiInstance.on("call-start", onCallStart);
-    vapiInstance.on("call-end", onCallEnd);
-    vapiInstance.on("message", onMessage);
-    vapiInstance.on("speech-start", onSpeechStart);
-    vapiInstance.on("speech-end", onSpeechEnd);
-    vapiInstance.on("error", onError);
+    vapi.on("call-start", onCallStart);
+    vapi.on("call-end", onCallEnd);
+    vapi.on("message", onMessage);
+    vapi.on("speech-start", onSpeechStart);
+    vapi.on("speech-end", onSpeechEnd);
+    vapi.on("error", onError);
 
     return () => {
-      vapiInstance.off("call-start", onCallStart);
-      vapiInstance.off("call-end", onCallEnd);
-      vapiInstance.off("message", onMessage);
-      vapiInstance.off("speech-start", onSpeechStart);
-      vapiInstance.off("speech-end", onSpeechEnd);
-      vapiInstance.off("error", onError);
+      vapi.off("call-start", onCallStart);
+      vapi.off("call-end", onCallEnd);
+      vapi.off("message", onMessage);
+      vapi.off("speech-start", onSpeechStart);
+      vapi.off("speech-end", onSpeechEnd);
+      vapi.off("error", onError);
     };
   }, []);
 
@@ -118,73 +115,34 @@ const Agent = ({
   }, [messages, callStatus, feedbackId, interviewId, router, type, userId]);
 
   const handleCall = async () => {
-    try {
-      setCallStatus(CallStatus.CONNECTING);
-      console.log("Starting call with type:", type);
-      console.log("Config:", {
-        workflowId: config.vapi.workflowId,
-        webToken: config.vapi.webToken ? "present" : "missing",
-      });
+    setCallStatus(CallStatus.CONNECTING);
 
-      // Get vapi instance with null check
-      const vapiInstance = getVapi();
-
-      if (type === "generate") {
-        if (!config.vapi.workflowId) {
-          throw new Error("NEXT_PUBLIC_VAPI_WORKFLOW_ID is not defined");
-        }
-        if (!config.vapi.webToken) {
-          throw new Error("NEXT_PUBLIC_VAPI_WEB_TOKEN is not defined");
-        }
-        console.log(
-          "Starting generate call with workflowId:",
-          config.vapi.workflowId
-        );
-        await vapiInstance.start(config.vapi.workflowId, {
-          variableValues: {
-            username: userName,
-            userid: userId,
-          },
-        });
-      } else {
-        let formattedQuestions = "";
-        if (questions) {
-          formattedQuestions = questions
-            .map((question) => `- ${question}`)
-            .join("\n");
-        }
-        console.log("Starting interview call with interviewer:", interviewer);
-        await vapiInstance.start(interviewer, {
-          variableValues: {
-            questions: formattedQuestions,
-          },
-        });
-      }
-    } catch (error) {
-      console.error("Detailed error starting call:", {
-        error,
-        errorMessage: error instanceof Error ? error.message : "Unknown error",
-        errorStack: error instanceof Error ? error.stack : undefined,
-        type,
-        config: {
-          workflowId: config.vapi.workflowId,
-          webToken: config.vapi.webToken ? "present" : "missing",
+    if (type === "generate") {
+      await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+        variableValues: {
+          username: userName,
+          userid: userId,
         },
-        vapiInitialized: !!vapi,
       });
-      setCallStatus(CallStatus.INACTIVE);
-      // You might want to show an error message to the user here
+    } else {
+      let formattedQuestions = "";
+      if (questions) {
+        formattedQuestions = questions
+          .map((question) => `- ${question}`)
+          .join("\n");
+      }
+
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions,
+        },
+      });
     }
   };
 
   const handleDisconnect = () => {
-    try {
-      setCallStatus(CallStatus.FINISHED);
-      const vapiInstance = getVapi();
-      vapiInstance.stop();
-    } catch (error) {
-      console.error("Error disconnecting:", error);
-    }
+    setCallStatus(CallStatus.FINISHED);
+    vapi.stop();
   };
 
   return (

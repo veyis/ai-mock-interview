@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import InterviewCard from "@/components/InterviewCard";
+
 import { getCurrentUser } from "@/lib/actions/auth.action";
 import {
   getInterviewsByUserId,
@@ -11,18 +12,14 @@ import {
 
 async function Home() {
   const user = await getCurrentUser();
-  if (!user) redirect("/");
 
   const [userInterviews, allInterview] = await Promise.all([
-    getInterviewsByUserId(user.id),
-    getLatestInterviews({ userId: user.id }),
+    getInterviewsByUserId(user?.id!),
+    getLatestInterviews({ userId: user?.id! }),
   ]);
 
-  const pastInterviews = Array.isArray(userInterviews) ? userInterviews : [];
-  const upcomingInterviews = Array.isArray(allInterview) ? allInterview : [];
-
-  const hasPastInterviews = pastInterviews.length > 0;
-  const hasUpcomingInterviews = upcomingInterviews.length > 0;
+  const hasPastInterviews = userInterviews?.length! > 0;
+  const hasUpcomingInterviews = allInterview?.length! > 0;
 
   return (
     <>
@@ -32,9 +29,10 @@ async function Home() {
           <p className="text-lg">
             Practice real interview questions & get instant feedback
           </p>
-          <Link href="/interview">
-            <Button>Start Practice</Button>
-          </Link>
+
+          <Button asChild className="btn-primary max-sm:w-full">
+            <Link href="/interview">Start an Interview</Link>
+          </Button>
         </div>
 
         <Image
@@ -46,43 +44,49 @@ async function Home() {
         />
       </section>
 
-      {hasPastInterviews && (
-        <section className="past-interviews">
-          <h2>Your Past Interviews</h2>
-          <div className="interview-grid">
-            {pastInterviews.map((interview) => (
-              <InterviewCard
-                key={interview.id}
-                userId={user.id}
-                interviewId={interview.id}
-                role={interview.role}
-                type={interview.type}
-                techstack={interview.techstack}
-                createdAt={interview.createdAt}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+      <section className="flex flex-col gap-6 mt-8">
+        <h2>Your Interviews</h2>
 
-      {hasUpcomingInterviews && (
-        <section className="upcoming-interviews">
-          <h2>Available Interviews</h2>
-          <div className="interview-grid">
-            {upcomingInterviews.map((interview) => (
+        <div className="interviews-section">
+          {hasPastInterviews ? (
+            userInterviews?.map((interview) => (
               <InterviewCard
                 key={interview.id}
-                userId={user.id}
+                userId={user?.id}
                 interviewId={interview.id}
                 role={interview.role}
                 type={interview.type}
                 techstack={interview.techstack}
                 createdAt={interview.createdAt}
               />
-            ))}
-          </div>
-        </section>
-      )}
+            ))
+          ) : (
+            <p>You haven&apos;t taken any interviews yet</p>
+          )}
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-6 mt-8">
+        <h2>Take Interviews</h2>
+
+        <div className="interviews-section">
+          {hasUpcomingInterviews ? (
+            allInterview?.map((interview) => (
+              <InterviewCard
+                key={interview.id}
+                userId={user?.id}
+                interviewId={interview.id}
+                role={interview.role}
+                type={interview.type}
+                techstack={interview.techstack}
+                createdAt={interview.createdAt}
+              />
+            ))
+          ) : (
+            <p>There are no interviews available</p>
+          )}
+        </div>
+      </section>
     </>
   );
 }

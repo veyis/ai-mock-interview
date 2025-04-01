@@ -4,7 +4,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/firebase/admin";
-import { feedbackSchema, Interview } from "@/constants";
+import { feedbackSchema } from "@/constants";
 
 export async function createFeedback(params: CreateFeedbackParams) {
   const { interviewId, userId, transcript, feedbackId } = params;
@@ -67,116 +67,59 @@ export async function createFeedback(params: CreateFeedbackParams) {
 }
 
 export async function getInterviewById(id: string): Promise<Interview | null> {
-  try {
-    const interview = await db.collection("interviews").doc(id).get();
-    if (!interview.exists) return null;
+  const interview = await db.collection("interviews").doc(id).get();
 
-    const data = interview.data();
-    if (!data) return null;
-
-    return {
-      id: interview.id,
-      userId: data.userId,
-      type: data.type,
-      role: data.role,
-      techstack: data.techstack,
-      createdAt: data.createdAt,
-    } as Interview;
-  } catch (error) {
-    console.error("Error getting interview:", error);
-    return null;
-  }
+  return interview.data() as Interview | null;
 }
 
-export async function getFeedbackByInterviewId({
-  interviewId,
-  userId,
-}: {
-  interviewId: string;
-  userId: string;
-}): Promise<any | null> {
-  try {
-    const feedback = await db
-      .collection("feedback")
-      .where("interviewId", "==", interviewId)
-      .where("userId", "==", userId)
-      .get();
+export async function getFeedbackByInterviewId(
+  params: GetFeedbackByInterviewIdParams
+): Promise<Feedback | null> {
+  const { interviewId, userId } = params;
 
-    if (feedback.empty) return null;
+  const querySnapshot = await db
+    .collection("feedback")
+    .where("interviewId", "==", interviewId)
+    .where("userId", "==", userId)
+    .limit(1)
+    .get();
 
-    const data = feedback.docs[0].data();
-    if (!data) return null;
+  if (querySnapshot.empty) return null;
 
-    return {
-      id: feedback.docs[0].id,
-      ...data,
-    };
-  } catch (error) {
-    console.error("Error getting feedback:", error);
-    return null;
-  }
+  const feedbackDoc = querySnapshot.docs[0];
+  return { id: feedbackDoc.id, ...feedbackDoc.data() } as Feedback;
 }
 
-export async function getLatestInterviews({
-  userId,
-  limit = 20,
-}: {
-  userId: string;
-  limit?: number;
-}): Promise<Interview[] | null> {
-  try {
-    const interviews = await db
-      .collection("interviews")
-      .orderBy("createdAt", "desc")
-      .limit(limit)
-      .get();
+export async function getLatestInterviews(
+  params: GetLatestInterviewsParams
+): Promise<Interview[] | null> {
+  const { userId, limit = 20 } = params;
 
-    return interviews.docs
-      .map((doc) => {
-        const data = doc.data();
-        if (!data) return null;
-        return {
-          id: doc.id,
-          userId: data.userId,
-          type: data.type,
-          role: data.role,
-          techstack: data.techstack,
-          createdAt: data.createdAt,
-        } as Interview;
-      })
-      .filter((interview): interview is Interview => interview !== null);
-  } catch (error) {
-    console.error("Error getting latest interviews:", error);
-    return null;
-  }
+  const interviews = await db
+    .collection("interviews")
+    .orderBy("createdAt", "desc")
+    .where("finalized", "==", true)
+    .where("userId", "!=", userId)
+    .limit(limit)
+    .get();
+
+  return interviews.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Interview[];
 }
 
 export async function getInterviewsByUserId(
   userId: string
 ): Promise<Interview[] | null> {
-  try {
-    const interviews = await db
-      .collection("interviews")
-      .where("userId", "==", userId)
-      .orderBy("createdAt", "desc")
-      .get();
+  const interviews = await db
+    .collection("interviews")
+    .where("userId", "==", userId)
+    .orderBy("createdAt", "desc")
+    .get();
 
-    return interviews.docs
-      .map((doc) => {
-        const data = doc.data();
-        if (!data) return null;
-        return {
-          id: doc.id,
-          userId: data.userId,
-          type: data.type,
-          role: data.role,
-          techstack: data.techstack,
-          createdAt: data.createdAt,
-        } as Interview;
-      })
-      .filter((interview): interview is Interview => interview !== null);
-  } catch (error) {
-    console.error("Error getting user interviews:", error);
-    return null;
-  }
+  return interviews.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Interview[];
 }

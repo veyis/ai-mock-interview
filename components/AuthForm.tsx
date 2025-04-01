@@ -16,49 +16,42 @@ import {
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 import { signIn, signUp } from "@/lib/actions/auth.action";
 import FormField from "./FormField";
-import { type } from "os";
 
-const signUpSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+const authFormSchema = (type: FormType) => {
+  return z.object({
+    name: type === "sign-up" ? z.string().min(3) : z.string().optional(),
+    email: z.string().email(),
+    password: z.string().min(3),
+  });
+};
 
-const signInSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-type SignUpValues = z.infer<typeof signUpSchema>;
-type SignInValues = z.infer<typeof signInSchema>;
-
-interface AuthFormProps {
-  type: "sign-in" | "sign-up";
-}
-
-export default function AuthForm({ type }: AuthFormProps) {
+const AuthForm = ({ type }: { type: FormType }) => {
   const router = useRouter();
-  const form = useForm<SignUpValues | SignInValues>({
-    resolver: zodResolver(type === "sign-up" ? signUpSchema : signInSchema),
-    defaultValues:
-      type === "sign-up"
-        ? { name: "", email: "", password: "" }
-        : { email: "", password: "" },
+
+  const formSchema = authFormSchema(type);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
   });
 
-  async function onSubmit(data: SignUpValues | SignInValues) {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      if (type === "sign-up" && "name" in data) {
+      if (type === "sign-up") {
         const { name, email, password } = data;
+
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
           password
         );
+
         const result = await signUp({
           uid: userCredential.user.uid,
           name: name!,
@@ -75,29 +68,34 @@ export default function AuthForm({ type }: AuthFormProps) {
         router.push("/sign-in");
       } else {
         const { email, password } = data;
+
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
           password
         );
+
         const idToken = await userCredential.user.getIdToken();
         if (!idToken) {
           toast.error("Sign in Failed. Please try again.");
           return;
         }
-        await signIn({ email, idToken });
+
+        await signIn({
+          email,
+          idToken,
+        });
+
         toast.success("Signed in successfully.");
         router.push("/");
       }
     } catch (error) {
-      console.error("Authentication error:", error);
+      console.log(error);
       toast.error(`There was an error: ${error}`);
     }
-  }
+  };
 
   const isSignIn = type === "sign-in";
-
-  const errors = form.formState.errors as Record<string, { message?: string }>;
 
   return (
     <div className="card-border lg:min-w-[566px]">
@@ -110,43 +108,38 @@ export default function AuthForm({ type }: AuthFormProps) {
         <h3>Practice job interviews with AI</h3>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {type === "sign-up" && (
-              <div className="space-y-2">
-                <Input
-                  {...form.register("name")}
-                  placeholder="Name"
-                  type="text"
-                />
-                {errors.name && (
-                  <p className="text-sm text-red-500">{errors.name.message}</p>
-                )}
-              </div>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-6 mt-4 form"
+          >
+            {!isSignIn && (
+              <FormField
+                control={form.control}
+                name="name"
+                label="Name"
+                placeholder="Your Name"
+                type="text"
+              />
             )}
-            <div className="space-y-2">
-              <Input
-                {...form.register("email")}
-                placeholder="Email"
-                type="email"
-              />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Input
-                {...form.register("password")}
-                placeholder="Password"
-                type="password"
-              />
-              {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-            <Button type="submit" className="w-full">
-              {type === "sign-up" ? "Sign Up" : "Sign In"}
+
+            <FormField
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Your email address"
+              type="email"
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              label="Password"
+              placeholder="Enter your password"
+              type="password"
+            />
+
+            <Button className="btn" type="submit">
+              {isSignIn ? "Sign In" : "Create an Account"}
             </Button>
           </form>
         </Form>
@@ -163,4 +156,6 @@ export default function AuthForm({ type }: AuthFormProps) {
       </div>
     </div>
   );
-}
+};
+
+export default AuthForm;

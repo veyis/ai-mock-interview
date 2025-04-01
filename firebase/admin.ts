@@ -5,18 +5,22 @@ import { getFirestore } from "firebase-admin/firestore";
 // Initialize Firebase Admin SDK
 function initFirebaseAdmin() {
   const apps = getApps();
+
   if (!apps.length) {
-    return initializeApp({
+    initializeApp({
       credential: cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        // Replace newlines in the private key
         privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
       }),
     });
   }
-  return apps[0];
+
+  return {
+    auth: getAuth(),
+    db: getFirestore(),
+  };
 }
 
-const app = initFirebaseAdmin();
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const { auth, db } = initFirebaseAdmin();

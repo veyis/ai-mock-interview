@@ -37,8 +37,6 @@ const InterviewCard = async ({
     feedback?.createdAt || createdAt || Date.now()
   ).format("MMM D, YYYY");
 
-  const techStack = Array.isArray(techstack) ? techstack : [];
-
   return (
     <div className="card-border w-[360px] max-sm:w-full min-h-96">
       <div className="card-interview">
@@ -91,7 +89,7 @@ const InterviewCard = async ({
         </div>
 
         <div className="flex flex-row justify-between">
-          <DisplayTechIcons techStack={techStack} />
+          <DisplayTechIcons techStack={techstack} />
 
           <Button className="btn-primary">
             <Link

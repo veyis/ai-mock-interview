@@ -95,86 +95,65 @@ export const mappings = {
   netlify: "netlify",
   vercel: "vercel",
   "aws amplify": "amplify",
-  "frontend-developer": {
-    role: "Frontend Developer",
-    type: "frontend",
-    techstack: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
-  },
-  "backend-developer": {
-    role: "Backend Developer",
-    type: "backend",
-    techstack: ["Node.js", "Express", "MongoDB", "REST APIs"],
-  },
-  "fullstack-developer": {
-    role: "Full Stack Developer",
-    type: "fullstack",
-    techstack: ["React", "Node.js", "MongoDB", "Express"],
-  },
-  "software-engineer": {
-    role: "Software Engineer",
-    type: "general",
-    techstack: ["JavaScript", "Python", "SQL", "Git"],
-  },
-  "data-scientist": {
-    role: "Data Scientist",
-    type: "data",
-    techstack: ["Python", "Pandas", "Scikit-learn", "TensorFlow"],
-  },
-  "product-manager": {
-    role: "Product Manager",
-    type: "product",
-    techstack: ["Agile", "JIRA", "Product Strategy", "User Research"],
-  },
-  "ux-designer": {
-    role: "UX Designer",
-    type: "design",
-    techstack: ["Figma", "User Research", "Prototyping", "Design Systems"],
-  },
-  "devops-engineer": {
-    role: "DevOps Engineer",
-    type: "devops",
-    techstack: ["Docker", "Kubernetes", "AWS", "CI/CD"],
-  },
-  "mobile-developer": {
-    role: "Mobile Developer",
-    type: "mobile",
-    techstack: ["React Native", "iOS", "Android", "Flutter"],
-  },
-  "qa-engineer": {
-    role: "QA Engineer",
-    type: "qa",
-    techstack: ["Testing", "Automation", "Selenium", "Jest"],
-  },
 };
 
 export const interviewer: CreateAssistantDTO = {
   name: "Interviewer",
   firstMessage:
-    "Hello! I'm your technical interviewer today. I'll be asking you questions about your experience and technical knowledge.",
-  model: {
-    provider: "openai",
-    model: "gpt-4-turbo-preview",
-    temperature: 0.7,
+    "Hello! Thank you for taking the time to speak with me today. I'm excited to learn more about you and your experience.",
+  transcriber: {
+    provider: "deepgram",
+    model: "nova-2",
+    language: "en",
   },
   voice: {
     provider: "11labs",
     voiceId: "sarah",
+    stability: 0.4,
+    similarityBoost: 0.8,
+    speed: 0.9,
+    style: 0.5,
+    useSpeakerBoost: true,
+  },
+  model: {
+    provider: "openai",
+    model: "gpt-4",
+    messages: [
+      {
+        role: "system",
+        content: `You are a professional job interviewer conducting a real-time voice interview with a candidate. Your goal is to assess their qualifications, motivation, and fit for the role.
+
+Interview Guidelines:
+Follow the structured question flow:
+{{questions}}
+
+Engage naturally & react appropriately:
+Listen actively to responses and acknowledge them before moving forward.
+Ask brief follow-up questions if a response is vague or requires more detail.
+Keep the conversation flowing smoothly while maintaining control.
+Be professional, yet warm and welcoming:
+
+Use official yet friendly language.
+Keep responses concise and to the point (like in a real voice interview).
+Avoid robotic phrasing—sound natural and conversational.
+Answer the candidate’s questions professionally:
+
+If asked about the role, company, or expectations, provide a clear and relevant answer.
+If unsure, redirect the candidate to HR for more details.
+
+Conclude the interview properly:
+Thank the candidate for their time.
+Inform them that the company will reach out soon with feedback.
+End the conversation on a polite and positive note.
+
+
+- Be sure to be professional and polite.
+- Keep all your responses short and simple. Use official language, but be kind and welcoming.
+- This is a voice conversation, so keep your responses short, like in a real conversation. Don't ramble for too long.`,
+      },
+    ],
   },
 };
-
-export const interviewSchema = z.object({
-  id: z.string().optional(),
-  role: z.string(),
-  type: z.string(),
-  techstack: z.array(z.string()),
-  userId: z.string(),
-  level: z.string().optional(),
-  questions: z.array(z.string()).optional(),
-  finalized: z.boolean().optional(),
-  createdAt: z.date().optional(),
-});
-
-export type Interview = z.infer<typeof interviewSchema>;
 
 export const feedbackSchema = z.object({
   totalScore: z.number(),
@@ -210,8 +189,6 @@ export const feedbackSchema = z.object({
   finalAssessment: z.string(),
 });
 
-export type Feedback = z.infer<typeof feedbackSchema>;
-
 export const interviewCovers = [
   "/adobe.png",
   "/amazon.png",
@@ -237,7 +214,7 @@ export const dummyInterviews: Interview[] = [
     level: "Junior",
     questions: ["What is React?"],
     finalized: false,
-    createdAt: new Date("2024-03-15T10:00:00Z"),
+    createdAt: "2024-03-15T10:00:00Z",
   },
   {
     id: "2",
@@ -248,6 +225,6 @@ export const dummyInterviews: Interview[] = [
     level: "Senior",
     questions: ["What is Node.js?"],
     finalized: false,
-    createdAt: new Date("2024-03-14T15:30:00Z"),
+    createdAt: "2024-03-14T15:30:00Z",
   },
 ];
