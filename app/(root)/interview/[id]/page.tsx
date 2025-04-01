@@ -12,17 +12,24 @@ import { getCurrentUser } from "@/lib/actions/auth.action";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 
 const InterviewDetails = async ({ params }: RouteParams) => {
+<<<<<<< HEAD
   const resolvedParams = await params;
   const { id } = resolvedParams;
 
   const user = await getCurrentUser();
   if (!user) redirect("/");
+=======
+  const { id } = await params;
+
+  const user = await getCurrentUser();
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
 
   const interview = await getInterviewById(id);
   if (!interview) redirect("/");
 
   const feedback = await getFeedbackByInterviewId({
     interviewId: id,
+<<<<<<< HEAD
     userId: user.id,
   });
 
@@ -31,6 +38,11 @@ const InterviewDetails = async ({ params }: RouteParams) => {
 
   const userName = user.name || '';
 
+=======
+    userId: user?.id!,
+  });
+
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
   return (
     <>
       <div className="flex flex-row gap-4 justify-between">
@@ -46,7 +58,11 @@ const InterviewDetails = async ({ params }: RouteParams) => {
             <h3 className="capitalize">{interview.role} Interview</h3>
           </div>
 
+<<<<<<< HEAD
           <DisplayTechIcons techStack={techstack} />
+=======
+          <DisplayTechIcons techStack={interview.techstack} />
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
         </div>
 
         <p className="bg-dark-200 px-4 py-2 rounded-lg h-fit">
@@ -55,11 +71,19 @@ const InterviewDetails = async ({ params }: RouteParams) => {
       </div>
 
       <Agent
+<<<<<<< HEAD
         userName={userName}
         userId={user.id}
         interviewId={id}
         type="interview"
         questions={questions}
+=======
+        userName={user?.name!}
+        userId={user?.id}
+        interviewId={id}
+        type="interview"
+        questions={interview.questions}
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
         feedbackId={feedback?.id}
       />
     </>

@@ -32,7 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+<<<<<<< HEAD
 .env.local
+=======
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
 
 # vercel
 .vercel
@@ -40,9 +43,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
 prepwise-df1bf-firebase-adminsdk-fbsvc-270dc8743a.json
 prepwise-df1bf-firebase-adminsdk-fbsvc-270dc8743a.json
 prepwise-df1bf-firebase-adminsdk-fbsvc-270dc8743a.json
 prepwise-df1bf-firebase-adminsdk-fbsvc-270dc8743a.json
 prepwise-df1bf-firebase-adminsdk-fbsvc-270dc8743a.json
 prepwise-df1bf-firebase-adminsdk-fbsvc-270dc8743a.json
+=======
+>>>>>>> daa1ba2 (Add your descriptive commit message here)

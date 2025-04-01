@@ -29,4 +29,7 @@ export default function RootLayout({
     </html>
   );
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> daa1ba2 (Add your descriptive commit message here)

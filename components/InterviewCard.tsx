@@ -34,11 +34,17 @@ const InterviewCard = async ({
     }[normalizedType] || "bg-light-600";
 
   const formattedDate = dayjs(
+<<<<<<< HEAD
     feedback ? feedback.createdAt : createdAt || Date.now()
   ).format("MMM D, YYYY");
 
   const techStack = Array.isArray(techstack) ? techstack : [];
 
+=======
+    feedback?.createdAt || createdAt || Date.now()
+  ).format("MMM D, YYYY");
+
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
   return (
     <div className="card-border w-[360px] max-sm:w-full min-h-96">
       <div className="card-interview">
@@ -91,7 +97,11 @@ const InterviewCard = async ({
         </div>
 
         <div className="flex flex-row justify-between">
+<<<<<<< HEAD
           <DisplayTechIcons techStack={techStack} />
+=======
+          <DisplayTechIcons techStack={techstack} />
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
 
           <Button className="btn-primary">
             <Link

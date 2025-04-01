@@ -11,11 +11,14 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+<<<<<<< HEAD
   {
     rules: {
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off"
     }
   }
+=======
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
 ];
 
 export default eslintConfig;

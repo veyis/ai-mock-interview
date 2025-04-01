@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { CreateAssistantDTO } from '@vapi-ai/web/dist/api'
 import { z } from 'zod'
 
@@ -109,6 +110,119 @@ export const interviewer: CreateAssistantDTO = {
   voice: {
     provider: '11labs',
     voiceId: 'sarah',
+=======
+import { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
+import { z } from "zod";
+
+export const mappings = {
+  "react.js": "react",
+  reactjs: "react",
+  react: "react",
+  "next.js": "nextjs",
+  nextjs: "nextjs",
+  next: "nextjs",
+  "vue.js": "vuejs",
+  vuejs: "vuejs",
+  vue: "vuejs",
+  "express.js": "express",
+  expressjs: "express",
+  express: "express",
+  "node.js": "nodejs",
+  nodejs: "nodejs",
+  node: "nodejs",
+  mongodb: "mongodb",
+  mongo: "mongodb",
+  mongoose: "mongoose",
+  mysql: "mysql",
+  postgresql: "postgresql",
+  sqlite: "sqlite",
+  firebase: "firebase",
+  docker: "docker",
+  kubernetes: "kubernetes",
+  aws: "aws",
+  azure: "azure",
+  gcp: "gcp",
+  digitalocean: "digitalocean",
+  heroku: "heroku",
+  photoshop: "photoshop",
+  "adobe photoshop": "photoshop",
+  html5: "html5",
+  html: "html5",
+  css3: "css3",
+  css: "css3",
+  sass: "sass",
+  scss: "sass",
+  less: "less",
+  tailwindcss: "tailwindcss",
+  tailwind: "tailwindcss",
+  bootstrap: "bootstrap",
+  jquery: "jquery",
+  typescript: "typescript",
+  ts: "typescript",
+  javascript: "javascript",
+  js: "javascript",
+  "angular.js": "angular",
+  angularjs: "angular",
+  angular: "angular",
+  "ember.js": "ember",
+  emberjs: "ember",
+  ember: "ember",
+  "backbone.js": "backbone",
+  backbonejs: "backbone",
+  backbone: "backbone",
+  nestjs: "nestjs",
+  graphql: "graphql",
+  "graph ql": "graphql",
+  apollo: "apollo",
+  webpack: "webpack",
+  babel: "babel",
+  "rollup.js": "rollup",
+  rollupjs: "rollup",
+  rollup: "rollup",
+  "parcel.js": "parcel",
+  parceljs: "parcel",
+  npm: "npm",
+  yarn: "yarn",
+  git: "git",
+  github: "github",
+  gitlab: "gitlab",
+  bitbucket: "bitbucket",
+  figma: "figma",
+  prisma: "prisma",
+  redux: "redux",
+  flux: "flux",
+  redis: "redis",
+  selenium: "selenium",
+  cypress: "cypress",
+  jest: "jest",
+  mocha: "mocha",
+  chai: "chai",
+  karma: "karma",
+  vuex: "vuex",
+  "nuxt.js": "nuxt",
+  nuxtjs: "nuxt",
+  nuxt: "nuxt",
+  strapi: "strapi",
+  wordpress: "wordpress",
+  contentful: "contentful",
+  netlify: "netlify",
+  vercel: "vercel",
+  "aws amplify": "amplify",
+};
+
+export const interviewer: CreateAssistantDTO = {
+  name: "Interviewer",
+  firstMessage:
+    "Hello! Thank you for taking the time to speak with me today. I'm excited to learn more about you and your experience.",
+  transcriber: {
+    provider: "deepgram",
+    model: "nova-2",
+    language: "en",
+  },
+  voice: {
+    provider: "11labs",
+    voiceId: "sarah",
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
     stability: 0.4,
     similarityBoost: 0.8,
     speed: 0.9,
@@ -116,11 +230,19 @@ export const interviewer: CreateAssistantDTO = {
     useSpeakerBoost: true,
   },
   model: {
+<<<<<<< HEAD
     provider: 'openai',
     model: 'gpt-4',
     messages: [
       {
         role: 'system',
+=======
+    provider: "openai",
+    model: "gpt-4",
+    messages: [
+      {
+        role: "system",
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
         content: `You are a professional job interviewer conducting a real-time voice interview with a candidate. Your goal is to assess their qualifications, motivation, and fit for the role.
 
 Interview Guidelines:
@@ -146,39 +268,67 @@ Thank the candidate for their time.
 Inform them that the company will reach out soon with feedback.
 End the conversation on a polite and positive note.
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
 - Be sure to be professional and polite.
 - Keep all your responses short and simple. Use official language, but be kind and welcoming.
 - This is a voice conversation, so keep your responses short, like in a real conversation. Don't ramble for too long.`,
       },
     ],
   },
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
 
 export const feedbackSchema = z.object({
   totalScore: z.number(),
   categoryScores: z.tuple([
     z.object({
+<<<<<<< HEAD
       name: z.literal('Communication Skills'),
+=======
+      name: z.literal("Communication Skills"),
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
       score: z.number(),
       comment: z.string(),
     }),
     z.object({
+<<<<<<< HEAD
       name: z.literal('Technical Knowledge'),
+=======
+      name: z.literal("Technical Knowledge"),
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
       score: z.number(),
       comment: z.string(),
     }),
     z.object({
+<<<<<<< HEAD
       name: z.literal('Problem Solving'),
+=======
+      name: z.literal("Problem Solving"),
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
       score: z.number(),
       comment: z.string(),
     }),
     z.object({
+<<<<<<< HEAD
       name: z.literal('Cultural Fit'),
+=======
+      name: z.literal("Cultural Fit"),
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
       score: z.number(),
       comment: z.string(),
     }),
     z.object({
+<<<<<<< HEAD
       name: z.literal('Confidence and Clarity'),
+=======
+      name: z.literal("Confidence and Clarity"),
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
       score: z.number(),
       comment: z.string(),
     }),
@@ -186,6 +336,7 @@ export const feedbackSchema = z.object({
   strengths: z.array(z.string()),
   areasForImprovement: z.array(z.string()),
   finalAssessment: z.string(),
+<<<<<<< HEAD
 })
 
 export const interviewCovers = [
@@ -227,3 +378,46 @@ export const dummyInterviews: Interview[] = [
     createdAt: '2024-03-14T15:30:00Z',
   },
 ]
+=======
+});
+
+export const interviewCovers = [
+  "/adobe.png",
+  "/amazon.png",
+  "/facebook.png",
+  "/hostinger.png",
+  "/pinterest.png",
+  "/quora.png",
+  "/reddit.png",
+  "/skype.png",
+  "/spotify.png",
+  "/telegram.png",
+  "/tiktok.png",
+  "/yahoo.png",
+];
+
+export const dummyInterviews: Interview[] = [
+  {
+    id: "1",
+    userId: "user1",
+    role: "Frontend Developer",
+    type: "Technical",
+    techstack: ["React", "TypeScript", "Next.js", "Tailwind CSS"],
+    level: "Junior",
+    questions: ["What is React?"],
+    finalized: false,
+    createdAt: "2024-03-15T10:00:00Z",
+  },
+  {
+    id: "2",
+    userId: "user1",
+    role: "Full Stack Developer",
+    type: "Mixed",
+    techstack: ["Node.js", "Express", "MongoDB", "React"],
+    level: "Senior",
+    questions: ["What is Node.js?"],
+    finalized: false,
+    createdAt: "2024-03-14T15:30:00Z",
+  },
+];
+>>>>>>> daa1ba2 (Add your descriptive commit message here)
