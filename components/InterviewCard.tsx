@@ -71,6 +71,7 @@ const InterviewCard = async ({
                 width={22}
                 height={22}
                 alt="calendar"
+                className="size-[22px] object-contain"
               />
               <p>{formattedDate}</p>
             </div>

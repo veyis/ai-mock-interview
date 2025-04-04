@@ -46,7 +46,7 @@ export function Navbar() {
           alt='PrepWise Logo'
           width={96}
           height={32}
-          className='h-8 w-auto'
+          className='h-8 w-[96px] object-contain'
         />
         <span className='text-xl font-bold gap-2'>PrepWise</span>
       </Link>
