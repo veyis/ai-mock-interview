@@ -35,6 +35,23 @@ const Agent = ({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [lastMessage, setLastMessage] = useState<string>("");
 
+  const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+    console.log("handleGenerateFeedback");
+    const { success, feedbackId: id } = await createFeedback({
+      interviewId: interviewId!,
+      userId: userId!,
+      transcript: messages,
+      feedbackId,
+    });
+
+    if (success && id) {
+      router.push(`/interview/${interviewId}/feedback`);
+    } else {
+      console.log("Error saving feedback");
+      router.push("/");
+    }
+  };
+
   useEffect(() => {
     const onCallStart = () => {
       setCallStatus(CallStatus.ACTIVE);
@@ -63,6 +80,14 @@ const Agent = ({
 
     const onError = (error: Error) => {
       console.log("Error:", error);
+      if (error.message.includes("Meeting has ended")) {
+        setCallStatus(CallStatus.FINISHED);
+        if (messages.length > 0) {
+          handleGenerateFeedback(messages);
+        } else {
+          router.push("/");
+        }
+      }
     };
 
     vapi.on("call-start", onCallStart);
@@ -86,24 +111,6 @@ const Agent = ({
     if (messages.length > 0) {
       setLastMessage(messages[messages.length - 1].content);
     }
-
-    const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-      console.log("handleGenerateFeedback");
-
-      const { success, feedbackId: id } = await createFeedback({
-        interviewId: interviewId!,
-        userId: userId!,
-        transcript: messages,
-        feedbackId,
-      });
-
-      if (success && id) {
-        router.push(`/interview/${interviewId}/feedback`);
-      } else {
-        console.log("Error saving feedback");
-        router.push("/");
-      }
-    };
 
     if (callStatus === CallStatus.FINISHED) {
       if (type === "generate") {
@@ -141,8 +148,15 @@ const Agent = ({
   };
 
   const handleDisconnect = () => {
-    setCallStatus(CallStatus.FINISHED);
-    vapi.stop();
+    try {
+      setCallStatus(CallStatus.FINISHED);
+      vapi.stop();
+    } catch (error) {
+      console.error("Error during disconnect:", error);
+      if (messages.length > 0) {
+        handleGenerateFeedback(messages);
+      }
+    }
   };
 
   return (
